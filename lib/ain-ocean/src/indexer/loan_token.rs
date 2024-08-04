@@ -112,6 +112,33 @@ pub fn index_active_price(services: &Arc<Services>, block: &BlockContext) -> Res
     Ok(())
 }
 
+pub fn invalidate_active_price(services: &Arc<Services>, block: &BlockContext) -> Result<()> {
+    let block_interval = match Network::Regtest {
+        Network::Regtest => 6,
+        _ => 120,
+    };
+    if block.height % block_interval == 0 {
+        let pt = services
+            .price_ticker
+            .by_id
+            .list(None, SortOrder::Ascending)?
+            .map(|item| {
+                let (_, priceticker) = item?;
+                Ok(priceticker)
+            })
+            .collect::<Result<Vec<_>>>()?;
+
+        for ticker in pt {
+            services
+                .oracle_price_active
+                .by_id
+                .delete(&(ticker.id.0, ticker.id.1, block.height))?;
+        }
+    }
+
+    Ok(())
+}
+
 pub fn perform_active_price_tick(
     services: &Arc<Services>,
     ticker_id: (String, String),
