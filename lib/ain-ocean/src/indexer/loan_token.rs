@@ -195,7 +195,7 @@ pub fn perform_active_price_tick(
 
     let next_price = if is_aggregate_valid(aggregated_price, block) {
         Some(OraclePriceActiveNext {
-            amount: aggregated_price.aggregated.amount.clone(),
+            amount: aggregated_price.aggregated.amount.to_string(),
             weightage: aggregated_price.aggregated.weightage,
             oracles: OraclePriceActiveNextOracles {
                 active: aggregated_price.aggregated.oracles.active,
