@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use rust_decimal::Decimal;
+use serde::{Deserialize, Serialize};
 
 use super::BlockContext;
 pub type OraclePriceAggregatedId = (String, String, u32); //token-currency-height

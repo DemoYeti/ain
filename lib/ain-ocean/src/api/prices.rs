@@ -22,9 +22,8 @@ use crate::{
     error::{ApiError, Error, NotFoundKind},
     model::{
         ApiResponseOraclePriceFeed, BlockContext, OracleIntervalSeconds, OraclePriceActive,
-        OraclePriceAggregated, OraclePriceAggregatedAggregated,
-        OraclePriceAggregatedInterval, OraclePriceAggregatedIntervalAggregated,
-        OracleTokenCurrency, PriceOracles, PriceTicker,
+        OraclePriceAggregated, OraclePriceAggregatedAggregated, OraclePriceAggregatedInterval,
+        OraclePriceAggregatedIntervalAggregated, OracleTokenCurrency, PriceOracles, PriceTicker,
     },
     repository::RepositoryOps,
     storage::SortOrder,
