@@ -19,6 +19,7 @@ pub struct OraclePriceAggregated {
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct OraclePriceAggregatedAggregated {
+    #[serde(with = "rust_decimal::serde::str")]
     pub amount: Decimal,
     pub weightage: u8,
     pub oracles: OraclePriceAggregatedAggregatedOracles,

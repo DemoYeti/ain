@@ -22,8 +22,9 @@ use crate::{
     error::{ApiError, Error, NotFoundKind},
     model::{
         ApiResponseOraclePriceFeed, BlockContext, OracleIntervalSeconds, OraclePriceActive,
-        OraclePriceAggregated, OraclePriceAggregatedAggregated, OraclePriceAggregatedInterval,
-        OraclePriceAggregatedIntervalAggregated, OracleTokenCurrency, PriceOracles, PriceTicker,
+        OraclePriceAggregated, OraclePriceAggregatedInterval,
+        OraclePriceAggregatedIntervalAggregated, OraclePriceAggregatedAggregatedOracles,
+        OracleTokenCurrency, PriceOracles, PriceTicker,
     },
     repository::RepositoryOps,
     storage::SortOrder,
@@ -38,8 +39,16 @@ pub struct OraclePriceAggregatedResponse {
     pub sort: String,
     pub token: String,
     pub currency: String,
-    pub aggregated: OraclePriceAggregatedAggregated,
+    pub aggregated: OraclePriceAggregatedAggregatedResponse,
     pub block: BlockContext,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct OraclePriceAggregatedAggregatedResponse {
+    pub amount: String,
+    pub weightage: u8,
+    pub oracles: OraclePriceAggregatedAggregatedOracles,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -65,8 +74,8 @@ impl From<PriceTicker> for PriceTickerResponse {
                 sort: price_ticker.price.sort,
                 token: price_ticker.price.token,
                 currency: price_ticker.price.currency,
-                aggregated: OraclePriceAggregatedAggregated {
-                    amount,
+                aggregated: OraclePriceAggregatedAggregatedResponse {
+                    amount: format!("{:.8}", amount),
                     weightage: price_ticker.price.aggregated.weightage,
                     oracles: price_ticker.price.aggregated.oracles,
                 },
